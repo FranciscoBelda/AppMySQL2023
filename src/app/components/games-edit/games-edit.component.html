@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-md-2 my-2">
+      <h2>Add a Game</h2>
+    </div>
+    <div class="col-md-4 offset-md-2">
+      <ng-form [formGroup]="gameForm" (ngSubmit)="addGame()">
+        <div class="form-floating mb-3">
+          <input formControlName="title" type="text" class="form-control" id="title"
+                 placeholder="title">
+          <label for="title">Title</label>
+          <div *ngIf="title.invalid &&
+          (title.dirty || title.touched)"
+               class="alert alert-warning" role="alert">
+            <div *ngIf="title.errors.required ||
+              title.errors.notOnlyWhitespace">
+              Title es obligatorio
+            </div>
+            <div *ngIf="title.errors.minlength">
+              Mínimo 2 caracteres
+            </div>
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input formControlName="subtitle" type="text" class="form-control" id="subtitle"
+                 placeholder="subtitle">
+          <label for="subtitle">Subtitle</label>
+          <div *ngIf="subtitle.invalid &&
+          (subtitle.dirty || subtitle.touched)"
+               class="alert alert-warning" role="alert">
+            <div *ngIf="subtitle.errors.required ||
+              subtitle.errors.notOnlyWhitespace">
+              Subtitle es obligatorio
+            </div>
+            <div *ngIf="subtitle.errors.minlength">
+              Mínimo 2 caracteres
+            </div>
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input formControlName="description" type="text" class="form-control" id="description"
+                 placeholder="description">
+          <label for="description">Description</label>
+          <div *ngIf="description.invalid &&
+          (description.dirty || description.touched)"
+               class="alert alert-warning" role="alert">
+            <div *ngIf="description.errors.required ||
+              description.errors.notOnlyWhitespace">
+              Description es obligatorio
+            </div>
+            <div *ngIf="description.errors.minlength">
+              Mínimo 2 caracteres
+            </div>
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input formControlName="image" type="text" class="form-control" id="image"
+                 placeholder="image">
+          <label for="image">Image</label>
+          <div *ngIf="image.invalid &&
+          (image.dirty || image.touched)"
+               class="alert alert-warning" role="alert">
+            <div *ngIf="image.errors.required ||
+              image.errors.notOnlyWhitespace">
+              Image es obligatorio
+            </div>
+            <div *ngIf="image.errors.minlength">
+              Mínimo 2 caracteres
+            </div>
+          </div>
+        </div>
+        <div class="form-check mb-3">
+          <input formControlName="favorite" type="checkbox"
+                 class="form-check-input" id="check">
+          <label class="form-check-label" for="check">Favorite</label>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-success"
+                  (click)="edit?editGame(): addGame()">Add Game</button>
+        </div>
+        </ng-form>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <h2>{{title.value === ''?'Título':title.value}}
+              <i *ngIf="favorite.value"
+                 class="fa-solid fa-heart text-danger"></i>
+              <i *ngIf="!favorite.value"
+                 class="fa-regular fa-heart text-danger"></i>
+            </h2>
+          </div>
+          <div class="card-subtitle">
+            {{subtitle.value === ''?'Subtítulo':subtitle.value}}</div>
+        </div>
+        <img [src]="image.value ===''?'/assets/images/no-image-icon.jpg':image.value" class="card-img-top"
+             [alt]="title.value"/>
+
+        <div class="card-body">
+          <p class="card-text">{{description.value===''?'Description':description.value}}</p>
+        </div>
+        <div class="card-footer">
+          <div class=" d-flex justify-content-between">
+            <p class="text-muted ">
+              {{ created_at.value === ''?(date | date: 'mediumDate'): created_at.value | date: 'mediumDate'}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <ngb-toast class="toast-container position-fixed
+             bg-success text-light top-0 end-50 p-1"
+             style="z-index: 1200" *ngIf="toastShow">
+    {{toast.body}}
+  </ngb-toast>
+</div>

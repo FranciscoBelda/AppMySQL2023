@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-12 toolbar p-3">
+      <ng-form (ngSubmit)="search($event)">
+        <div class="d-flex">
+          <h2>{{itemList.length}} Games
+            <i *ngIf="favorites" (click)="favoriteList()"
+               class="fa-solid fa-heart text-danger"></i>
+            <i *ngIf="!favorites" (click)="favoriteList()"
+               class="fa-regular fa-heart text-danger"></i>
+          </h2>
+          <i class="position-relative start-10 fa-lg fa-solid
+        fa-magnifying-glass align-self-center"></i>
+          <input type="search" placeholder="Search..."
+                 class="ms-3 ps-5 form-control w-25"
+                 #searchInput (keyup)="search(searchInput.value)">
+
+        </div>
+      </ng-form>
+    </div>
+  </div>
+    <div class="row">
+      <div class="mt-2 col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let game of itemList">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <h2>{{game.title}}
+                <i *ngIf="game.favorite" (click)="changeFavorite(game)"
+                   class="fa-solid fa-heart text-danger"></i>
+                <i *ngIf="!game.favorite" (click)="changeFavorite(game)"
+                   class="fa-regular fa-heart text-danger"></i>
+              </h2>
+            </div>
+            <div class="card-subtitle">{{game.subtitle}}</div>
+          </div>
+          <img [src]="game.image" class="card-img-top" [alt]="game.title"/>
+
+          <div class="card-body">
+            <p class="card-text">{{game.description}}</p>
+          </div>
+          <div class="card-footer">
+            <div class=" d-flex justify-content-between ">
+              <p class="text-muted ">{{game.created_at | date: 'mediumDate'}}</p>
+              <div class="buttons d-flex">
+                <button class="btn"
+                        [routerLink]="'/games/edit/'+game.id">
+                  <i class="fa-solid fa-edit
+              text-primary fa-xl"></i>
+                </button>
+
+                <!-- Button trigger modal -->
+                <button class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                  <i class="fa-solid fa-trash-can
+              text-danger fa-xl"></i>
+                </button>
+
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal"
+                     tabindex="-1" aria-labelledby="deleteModalLabel"
+                     aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModalLabel">
+                          Delete Game</h1>
+                        <button type="button" class="btn-close"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Desea borrar el juego <strong class="text-danger">{{game.title}}</strong>?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                (click)="deleteGame(game)">Borrar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ngb-toast class="toast-container position-fixed
+             bg-success text-light top-0 end-50 p-1"
+                 style="z-index: 1200" *ngIf="toastShow">
+        {{toast.body}}
+      </ngb-toast>
+    </div>
+  </div>
